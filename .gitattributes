@@ -1,0 +1,21 @@
+# Set the default behavior to automatically normalize line endings.
+* text=auto
+
+# Explicitly declare text files you want to always be normalized and converted to LF upon checkout.
+*.php text
+*.js text
+*.css text
+*.scss text
+*.html text
+*.blade.php text
+*.md text
+*.json text
+*.xml text
+*.yml text
+*.yaml text
+
+# Declare files that will always have CRLF line endings on checkout.
+*.bat text eol=crlf
+
+# Declare files that will always have LF line endings on checkout.
+*.sh text eol=lf

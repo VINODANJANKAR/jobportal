@@ -1,0 +1,76 @@
+/vendor/
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Laravel 4 specific
+bootstrap/compiled.php
+app/storage/
+
+# Laravel 5 & Lumen specific
+public/storage
+public/hot
+
+# Laravel 5 & Lumen specific with changed public path
+public_html/storage
+public_html/hot
+
+storage/*.key
+.env
+Homestead.yaml
+Homestead.json
+/.vagrant
+.phpunit.result.cache
+
+/public/build
+/storage/pail
+.env.backup
+.env.production
+.phpactor.json
+auth.json
+/.phpunit.cache
+/.fleet
+/.idea
+/.vscode
+
+# Laravel Mix
+/public/css/app.css
+/public/js/app.js
+
+# Ignoring Laravel Mix manifest files
+/public/mix-manifest.json
+/public/hot
+
+# Ignoring Laravel Telescope files
+storage/telescope
+
+# Ignoring Laravel Horizon files
+storage/horizon
+
+# Ignoring Laravel Nova files
+nova-components
+
+# Ignoring compiled view files
+/storage/framework/views/*.php
+
+# Ignoring compiled route files
+/routes/*.php
+
+# Ignoring compiled config files
+/config/*.php
+
+# Ignoring compiled translation files
+/resources/lang/*.php
+
+# Ignoring compiled blade files
+/resources/views/*.php
+
+# Ignoring compiled assets
+/public/assets
+
+# Ignoring IDE specific files
+.idea/
+.vscode/
+
+# Ignoring Vite specific files
+.vite/
