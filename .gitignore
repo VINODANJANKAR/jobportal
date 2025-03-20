@@ -8,8 +8,8 @@ bootstrap/compiled.php
 app/storage/
 
 # Laravel 5 & Lumen specific
-public/storage
-public/hot
+#public/storage
+#public/hot
 
 # Laravel 5 & Lumen specific with changed public path
 public_html/storage
@@ -34,8 +34,8 @@ auth.json
 /.vscode
 
 # Laravel Mix
-/public/css/app.css
-/public/js/app.js
+#/public/css/app.css
+#/public/js/app.js
 
 # Ignoring Laravel Mix manifest files
 /public/mix-manifest.json
@@ -57,16 +57,16 @@ nova-components
 /routes/*.php
 
 # Ignoring compiled config files
-/config/*.php
+#/config/*.php
 
 # Ignoring compiled translation files
 /resources/lang/*.php
 
 # Ignoring compiled blade files
-/resources/views/*.php
+#/resources/views/*.php
 
 # Ignoring compiled assets
-/public/assets
+#/public/assets
 
 # Ignoring IDE specific files
 .idea/
