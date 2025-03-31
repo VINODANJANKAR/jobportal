@@ -14,7 +14,7 @@ class Jobs extends Model
     use HasFactory;
     protected $fillable = [
         'post_id','post_date', 'valid_up_to','post_type','job_type','upload_image','position', 
-        'company_name', 'job_description','contact_person', 'contact_email', 'contact_phone',
+        'company_id', 'job_description','contact_person', 'contact_email', 'contact_phone',
          'location','skill_id', 'experience_id', 'is_repost','original_post_id', 'repost_date','status', 'post_by_id',
     ];
     
@@ -29,5 +29,9 @@ class Jobs extends Model
     public function experiences()
     {
         return $this->belongsTo(Experiences::class, 'experience_id');
+    }
+    public function companies()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
     }
 }

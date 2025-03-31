@@ -43,7 +43,7 @@
                 'Date',
                 'Post By',
                 'Valid Up',
-                'Title',
+                // 'Title',
                 'Company',
                 'Image',
                 'Status',

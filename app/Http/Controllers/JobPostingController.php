@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Jobs;
 use App\Models\Skills;
 use App\Models\Experiences;
+use App\Models\Company;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Storage;
@@ -28,7 +29,7 @@ class JobPostingController extends Controller
                 $search = $request->get('search');
                 $query->where('post_title', 'LIKE', "%{$search}%");
             }
-
+            $query->with('companies')->get();
             $jobPosts = $query->paginate($pageSize); // Adjust pagination as needed
 
             if ($request->ajax()) {
@@ -55,7 +56,8 @@ class JobPostingController extends Controller
         $show = false;
         $skills = Skills::get(); // Fetch skills as ['id' => 'name']
         $experiences = Experiences::get(); // Fetch skills as ['id' => 'name']
-        return view('jobposting.form',compact('show', 'skills', 'experiences'));
+        $companies = Company::get();
+        return view('jobposting.form',compact('show', 'skills', 'experiences', 'companies'));
     }
 
     /**
@@ -63,14 +65,15 @@ class JobPostingController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'post_date' => 'required|date',
             'valid_up_to' => 'required|date|after_or_equal:post_date',
             'post_type' => 'required|in:Regular,Image',
             'job_type' => 'required|in:On-Roll,Contractual,Temporary',
             'upload_image' => $request->post_type === 'Image' ? 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048' : 'nullable',
-            'position' => $request->post_type === 'Regular' ? 'required|string|max:255' : 'nullable|string|max:255',
-            'company_name' => $request->post_type === 'Regular' ? 'required|string|max:255' : 'nullable|string|max:255',
+            // 'position' => $request->post_type === 'Regular' ? 'required|string|max:255' : 'nullable|string|max:255',
+            'company_id' => 'nullable|exists:company,id',
             'job_description' => $request->post_type === 'Regular' ? 'required|string' : 'nullable|string',
             'contact_person' => 'nullable|string|max:255',
             'contact_email' => 'nullable|email|max:255',
@@ -84,7 +87,7 @@ class JobPostingController extends Controller
             'upload_image.image' => 'The uploaded file must be an image.',
             'upload_image.mimes' => 'The image must be of type: jpeg, png, jpg, gif, svg.',
             'upload_image.max' => 'The image size must be less than or equal to 2MB.',
-            'company_name.required' => 'The company name is required for regular posts.',
+            'company_id.required' => 'The company name is required for regular posts.',
             'job_description.required' => 'The job description is required for regular posts.',
             'contact_email.email' => 'The contact email must be a valid email address.',
             'contact_phone.string' => 'The contact phone must be a valid string.',
@@ -146,7 +149,9 @@ class JobPostingController extends Controller
         $jobPost = Jobs::findOrFail($id);
         $skills = Skills::get(); // Fetch skills as ['id' => 'name']
         $experiences = Experiences::get(); // Fetch skills as ['id' => 'name']
-        return view('jobposting.form',compact('jobPost','show', 'skills', 'experiences'));
+        // $companies = Company::get();
+        $companies = $jobPost->companies->pluck('name', 'id');
+        return view('jobposting.form',compact('jobPost','show', 'skills', 'experiences', 'companies'));
     }
 
     /**
@@ -178,7 +183,7 @@ class JobPostingController extends Controller
             'post_type' => 'required|in:Regular,Image',
             'job_type' => 'required|in:On-Roll,Contractual,Temporary',
             'upload_image' => $request->post_type === 'Image' ? 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048' : 'nullable',
-            'position' => $request->post_type === 'Regular' ? 'required|string|max:255' : 'nullable|string|max:255',
+            // 'position' => $request->post_type === 'Regular' ? 'required|string|max:255' : 'nullable|string|max:255',
             'company_name' => $request->post_type === 'Regular' ? 'required|string|max:255' : 'nullable|string|max:255',
             'job_description' => $request->post_type === 'Regular' ? 'required|string' : 'nullable|string',
             'contact_person' => 'nullable|string|max:255',

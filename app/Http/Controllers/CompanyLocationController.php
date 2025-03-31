@@ -15,13 +15,15 @@ class CompanyLocationController extends Controller
     public function index()
     {
         //
+        dd('index');
     }
-
+    
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
+        dd('create');
         //
     }
 
@@ -31,12 +33,13 @@ class CompanyLocationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'company_id' => 'required|exists:companies,id',
+            'company_id' => 'required|exists:company,id',
             'location' => 'required|string',
             'location_map' => 'nullable|string',
             'city' => 'required|string',
             'address' => 'required|string',
         ]);
+        // dd($validated);
     
         // Create the new location
         $location = new CompanyLocations();

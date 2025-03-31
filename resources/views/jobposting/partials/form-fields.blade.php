@@ -23,7 +23,7 @@
         </div>
         <div class="col-md-6">
             <div class="form-group d-flex align-items-center">
-                <label for="valid_up_to" class="mr-3 mb-0" style="min-width: 120px;">Valid Up To</label>
+                <label for="valid_up_to" class="mr-3 mb-0" style="min-width: 120px;">Valid UpTo</label>
                 <div class="w-100">
                     <input type="date" name="valid_up_to"
                         class="form-control rounded-0 text-dark border-light @error('valid_up_to') is-invalid @enderror"
@@ -130,34 +130,23 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group d-flex align-items-center">
-                <label for="company_name" class="mr-3 mb-0" style="min-width: 120px;">Company Name</label>
+                <label for="company_id" class="mr-3 mb-0" style="min-width: 120px;">Company Name</label>
                 <div class="w-100">
-                    <input type="text" name="company_name"
-                        class="form-control form-select rounded-0 text-dark border-light @error('company_name') is-invalid @enderror"
-                        value="{{ old('company_name', $jobPost->company_name ?? '') }}"
-                        @if ($show) readonly @endif>
-                    @error('company_name')
+                    <select name="company_id" id="company_id"
+                        class="form-control form-select rounded-0 text-dark border-light @error('company_id') is-invalid @enderror"
+                        @if ($show) disabled @endif>
+                        @foreach ($companies as $company)
+                        @php dd($company['id']); @endphp
+                        <option value="{{ $company->id }}"
+                                {{ old('company_id', $jobPost->company_id ?? '') == $company->id ? 'selected' : ''}}>{{ $company->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('company_id')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group d-flex align-items-center">
-                <label for="position" class="mr-3 mb-0" style="min-width: 120px;">Position</label>
-                <div class="w-100">
-                    <input type="text" name="position" id="position"
-                        class="form-control rounded-0 text-dark border-light @error('position') is-invalid @enderror"
-                        value="{{ old('position', $jobPost->position ?? '') }}"
-                        @if ($show) readonly @endif>
-                    @error('position')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
         <div class="col-md-6">
             <div class="form-group d-flex align-items-center">
                 <label for="skill_id" class="mr-3 mb-0" style="min-width: 120px;">Skills</label>
@@ -196,8 +185,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
         <div class="col-md-6">
             <div class="form-group d-flex align-items-center">
                 <label for="location" class="mr-3 mb-0" style="min-width: 120px;">Location</label>
@@ -219,7 +206,7 @@
                 <label for="job_description" class="mr-3 mb-0" style="min-width: 120px;">Job Description</label>
                 <div class="w-100">
                     @if (!$show)
-                        <textarea name="job_description" id="job_details"
+                        <textarea name="job_description" id="job_details" rows="7"
                             class="form-control rounded-0 text-dark border-light @error('job_description') is-invalid @enderror"
                             @if ($show) readonly @endif>{{ old('job_description', $jobPost->job_description ?? '') }}</textarea>
                         @error('job_description')

@@ -13,8 +13,8 @@
             <td>{{ $jobPost->post_date ?? '' }}</td>
             <td>{{ $jobPost->users->name ?? '' }}</td>
             <td>{{ $jobPost->valid_up_to ?? '' }}</td>
-            <td>{{ $jobPost->post_title }}</td>
-            <td>{{ $jobPost->company_name ?? '' }}</td>
+            {{-- <td>{{ $jobPost->post_title }}</td> --}}
+            <td>{{ $jobPost->companies->name ?? '' }}</td>
             <td>
                 @if (!empty($jobPost->upload_image))
                     <a href="{{ asset('storage/jobPost/' . $jobPost->upload_image) }}" data-fancybox="gallery"

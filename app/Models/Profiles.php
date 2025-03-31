@@ -11,13 +11,13 @@ class Profiles extends Model
     
     protected $fillable = [
         'first_name', 
-        'last_name', 
+        // 'last_name', 
         'gender', 
         'mobile_number', 
         'aadhar_card_no', 
         'address',
         'city', 
-        'state', 
+        // 'state_id', 
         'pin_code',
         'skill_id',
         'qualification_id',
@@ -25,7 +25,7 @@ class Profiles extends Model
         'current_salary', 
         'photo', 
         'cv', 
-        'password', 
+        // 'password', 
         'current_location',
         'passing_year',
     ];
@@ -44,5 +44,10 @@ class Profiles extends Model
     public function qualifications()
     {
         return $this->belongsTo(Qualifications::class, 'qualification_id');
+    }
+    
+    public function states()
+    {
+        return $this->belongsTo(State::class, 'state_id');
     }
 }

@@ -8,25 +8,21 @@
 @else
     @foreach ($profiles as $profile)
         <tr>
-            <td>
+            {{-- <td>
                 <div class="checkbox-wrapper">
                     <input type="checkbox" class="selectId" data-id="{{ $profile->id }}"
                         id="checkbox-{{ $profile->id }}" />
                     <label for="checkbox-{{ $profile->id }}" class="checkbox-label"
                         style="width: 100%">{{ $profile->id }}</label>
                 </div>
-            </td>
-            <td><a href="{{ route('profiles.show', $profile->id) }}">{{ $profile->first_name }}
-                    {{ $profile->last_name }}</a></td>
-
-
+            </td> --}}
+            <td><a href="{{ route('profiles.show', $profile->id) }}">{{ $profile->first_name }}</a></td>
+            <td>{{ $profile->gender }}</td>
+            <td>{{ $profile->mobile_number }}</td>
             <td>{{ $profile->city }}</td>
-            <td>{{ $profile->experiences->experience }}
-            </td>
-            <td> {{ $profile->qualifications->qualification }}
-            </td>
-            <td>{{ $profile->skills->skill }}
-            </td>
+            <td>{{ $profile->qualifications->qualification }}</td>
+            <td>{{ $profile->passing_year }}</td>
+            <td>{{ $profile->skills->skill }}</td>
             <td>
                 @if (!empty($profile->cv) && $profile->cv != 'NA')
                     <a href="{{ asset('storage/cv/' . $profile->cv) }}" class="btn btn-dark btn-sm"

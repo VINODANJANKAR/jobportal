@@ -79,6 +79,12 @@
                                         <i class="me-4"></i> Qualifications
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('master/company') }}"
+                                        class="nav-link {{ Request::is('master/company*') ? 'active' : '' }}">
+                                        <i class="me-4"></i> Company
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>

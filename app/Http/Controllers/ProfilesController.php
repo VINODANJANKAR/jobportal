@@ -16,6 +16,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Models\State;
 
 use Exception;
 
@@ -94,7 +95,8 @@ class ProfilesController extends Controller
         $skills = Skills::pluck('skill', 'id'); // Fetch skills as ['id' => 'name']
         $experiences = Experiences::pluck('experience', 'id'); // Fetch experiences
         $qualifications = Qualifications::pluck('qualification', 'id'); // Fetch qualifications
-        return view('profiles.form',compact('show', 'skills', 'experiences', 'qualifications'));
+        $states = State::pluck('name','id'); //Fetch all states
+        return view('profiles.form',compact('show', 'skills', 'experiences', 'qualifications', 'states'));
     }
 
     /**
@@ -104,7 +106,7 @@ class ProfilesController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'first_name'        => 'required|string|max:255',
-            'last_name'         => 'required|string|max:255',
+            // 'last_name'         => 'required|string|max:255',
             'gender'            => 'required|in:male,female,other',
             'mobile_number'     => 'required|string|unique:profiles,mobile_number|max:15',
             'aadhar_card_no'    => 'nullable|string|unique:profiles,aadhar_card_no|max:12',
@@ -115,10 +117,11 @@ class ProfilesController extends Controller
             'skill_id'          => 'nullable|string|exists:skills,id',
             'qualification_id'  => 'nullable|string|exists:qualifications,id',
             'experience_id'     => 'nullable|string|exists:experiences,id',
+            'state'             => 'nullable|string|exists:state,id',
             'current_salary'    => 'nullable|numeric|min:0',
             'photo'             => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'cv'                => 'nullable|file|mimes:pdf,doc,docx|max:5120',
-            'password'          => 'required|string|min:8',
+            // 'password'          => 'required|string|min:8',
             'current_location'  => 'nullable|string|max:255',
             'passing_year'  => 'nullable|string|max:255',
 
@@ -150,7 +153,8 @@ class ProfilesController extends Controller
             $data = $request->all();
             $data['photo'] = $photoPath;
             $data['cv'] = $cvPath;
-            $data['password'] = Hash::make($request->password); // Hash password
+            // dd($data);
+            // $data['password'] = Hash::make($request->password); // Hash password
             $profile = Profiles::create($data);
         
             return response()->json([
@@ -173,7 +177,8 @@ class ProfilesController extends Controller
         $skills = $profile->skills->pluck('skill', 'id'); // Fetch skills as ['id' => 'name']
         $experiences = $profile->experiences->pluck('experience', 'id'); 
         $qualifications = $profile->qualifications->pluck('qualification', 'id'); // Fetch qualifications
-        return view('profiles.form',compact('profile','show', 'skills', 'experiences', 'qualifications'));
+        $states = $profile->states->pluck('name','id'); //Fetch all states
+        return view('profiles.form',compact('profile','show', 'skills', 'experiences', 'qualifications', 'states'));
     }
 
     /**
@@ -187,7 +192,8 @@ class ProfilesController extends Controller
             $skills = Skills::pluck('skill', 'id'); // Fetch skills as ['id' => 'name']
             $experiences = Experiences::pluck('experience', 'id'); // Fetch experiences
             $qualifications = Qualifications::pluck('qualification', 'id'); // Fetch qualifications
-            return view('profiles.form',compact('profile','show', 'skills', 'experiences', 'qualifications'));
+            $states = State::pluck('name','id'); //Fetch all states
+            return view('profiles.form',compact('profile','show', 'skills', 'experiences', 'qualifications', 'states'));
         } catch (ModelNotFoundException $e) {
             return back()->withErrors(['error' => 'Profile not found.']);
         } catch (Exception $e) {
@@ -202,7 +208,7 @@ class ProfilesController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'first_name'        => 'required|string|max:255',
-            'last_name'         => 'required|string|max:255',
+            // 'last_name'         => 'required|string|max:255',
             'gender'            => 'required|in:male,female,other',
             'mobile_number'     => 'required|string|unique:profiles,mobile_number,' . $id . '|max:15',
             'aadhar_card_no'    => 'nullable|string|unique:profiles,aadhar_card_no,' . $id . '|max:12',
@@ -213,10 +219,11 @@ class ProfilesController extends Controller
             'skill_id'          => 'nullable|string|exists:skills,id',
             'qualification_id'  => 'nullable|string|exists:qualifications,id',
             'experience_id'     => 'nullable|string|exists:experiences,id',
+            'state'             => 'nullable|string|exists:state,id',
             'current_salary'    => 'nullable|numeric|min:0',
             'photo'             => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'cv'                => 'nullable|file|mimes:pdf,doc,docx|max:5120',
-            'password'          => 'required|string|min:8',
+            // 'password'          => 'required|string|min:8',
             'current_location'  => 'nullable|string|max:255',
             'passing_year'  => 'nullable|string|max:255',
 
@@ -381,7 +388,7 @@ class ProfilesController extends Controller
                 $Aadarchad = $rowData[4];
                 $Address = $rowData[5];
                 $City = $rowData[6];
-                $Status = $rowData[7];
+                $State = $rowData[7];
                 $PinCode = $rowData[8];
                 $Education = $rowData[9];
                 $Experience = $rowData[10];
@@ -398,7 +405,7 @@ class ProfilesController extends Controller
                 $skill = Skills::where('skill', $Skill)->first(); // Assuming 'name' field exists in the skills table
                 $qualification = Qualifications::where('qualification', $Education)->first(); // Assuming 'name' field exists in qualifications
                 $experience = Experiences::where('experience', $Experience)->first(); // Assuming 'years' field exists in the experiences table
-
+                $state = State::where('name', $State)->first();
                 Profiles::firstOrCreate([
                     'first_name'       => $FirstName,
                     'last_name'        => $LastName,
@@ -407,7 +414,7 @@ class ProfilesController extends Controller
                     'aadhar_card_no'   => $Aadarchad,
                     'address'          => $Address,
                     'city'             => $City,
-                    'state'            => $Status,
+                    'state_id'            => $state ? $state->id :null,
                     'pin_code'         => $PinCode,
                     'skill_id'         => $skill ? $skill->id : null, // If skill exists, link it
                     'qualification_id' => $qualification ? $qualification->id : null, // If qualification exists, link it
@@ -494,7 +501,7 @@ class ProfilesController extends Controller
             $skill = $profile->skills ? $profile->skills->skill : ''; // Assuming 'name' exists in the skills table
             $qualification = $profile->qualifications ? $profile->qualifications->qualification : ''; // Assuming 'name' exists in the qualifications table
             $experience = $profile->experiences ? $profile->experiences->experience : ''; // Assuming 'years' exists in the experiences table
-
+            $state = $profile->state ? $profile->states->name : '';
             $sheet->setCellValue('A' . $row, $profile->first_name);
             $sheet->setCellValue('B' . $row, $profile->last_name);
             $sheet->setCellValue('C' . $row, $profile->gender);
@@ -502,7 +509,7 @@ class ProfilesController extends Controller
             $sheet->setCellValue('E' . $row, $profile->aadhar_card_no);
             $sheet->setCellValue('F' . $row, $profile->address);
             $sheet->setCellValue('G' . $row, $profile->city);
-            $sheet->setCellValue('H' . $row, $profile->state);
+            $sheet->setCellValue('H' . $row, $state);
             $sheet->setCellValue('I' . $row, $profile->pin_code);
             $sheet->setCellValue('J' . $row, $qualification); // Education
             $sheet->setCellValue('K' . $row, $experience); // Work Experience
@@ -542,25 +549,25 @@ class ProfilesController extends Controller
 
     const FORM_FIELDS = [
         'personal_information' => [
-            ['type' => 'text', 'name' => 'first_name', 'label' => 'First Name'],
-            ['type' => 'text', 'name' => 'last_name', 'label' => 'Last Name'],
+            ['type' => 'text', 'name' => 'first_name', 'label' => 'Full Name'],
+            // ['type' => 'text', 'name' => 'last_name', 'label' => 'Last Name'],
             ['type' => 'select', 'name' => 'gender', 'label' => 'Gender', 'options' => ['male' => 'Male', 'female' => 'Female', 'other' => 'Other'], 'multiple' => false],
             ['type' => 'text', 'name' => 'mobile_number', 'label' => 'Mobile Number'],
-            ['type' => 'text', 'name' => 'aadhar_card_no', 'label' => 'Aadhar Card No'],
+            ['type' => 'text', 'name' => 'aadhar_card_no', 'label' => 'Aadhar No'],
             ['type' => 'text', 'name' => 'address', 'label' => 'Address'],
             ['type' => 'text', 'name' => 'city', 'label' => 'City'],
-            ['type' => 'text', 'name' => 'state', 'label' => 'State'],
+            ['type' => 'select', 'name' => 'state', 'label' => 'State', 'options' => [], 'multiple' => true],
             ['type' => 'text', 'name' => 'pin_code', 'label' => 'Pin Code'],
-            ['type' => 'text', 'name' => 'education', 'label' => 'Education'],
-            ['type' => 'number', 'name' => 'current_salary', 'label' => 'Current Salary'],
-            ['type' => 'password', 'name' => 'password', 'label' => 'Password'],
-            ['type' => 'text', 'name' => 'current_location', 'label' => 'Current Location'],
-            ['type' => 'select', 'name' => 'skill_id', 'label' => 'Skill' , 'options' => [], 'multiple' => true],
             ['type' => 'select', 'name' => 'qualification_id', 'label' => 'Qualification' , 'options' => [], 'multiple' => true],
+            // ['type' => 'text', 'name' => 'education', 'label' => 'Edu Qualification'],
+            ['type' => 'text', 'name' => 'passing_year', 'label' => 'Year of Passing'],
             ['type' => 'select', 'name' => 'experience_id', 'label' => 'Experience' , 'options' => [] , 'multiple' => true],
+            ['type' => 'select', 'name' => 'skill_id', 'label' => 'Skill' , 'options' => [], 'multiple' => true],
+            ['type' => 'number', 'name' => 'current_salary', 'label' => 'Current Salary'],
+            // ['type' => 'password', 'name' => 'password', 'label' => 'Password'],
+            ['type' => 'text', 'name' => 'current_location', 'label' => 'Current Location'],
             ['type' => 'file', 'name' => 'photo', 'label' => 'Profile Photo'],
             ['type' => 'file', 'name' => 'cv', 'label' => 'Upload CV'],
-            ['type' => 'text', 'name' => 'passing_year', 'label' => 'Passing Year'],
 
         ],
     ];

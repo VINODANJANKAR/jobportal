@@ -26,7 +26,9 @@ class CompanyController extends Controller
                 $query->where('name', 'LIKE', "%{$search}%");
             }
 
+            // $companies = $query->withCount('locations')->paginate($pageSize);
             $companies = $query->withCount('locations')->paginate($pageSize);
+            // dd($companies);
 
             if ($request->ajax()) {
                 $html = view('masters.company.partials.company-table', compact('companies'))->render();

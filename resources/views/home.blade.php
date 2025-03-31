@@ -114,6 +114,36 @@
                 </div>
             </div>
         </div>
+
+        <!-- Job post card -->
+        <div class="col-lg-4 col-sm-6">
+            <div class="card three">
+                <div class="card-body" style="min-height: 190px;">
+                    <h5 class="card-title mb-10 fw-semibold">Company wise Posting</h5>
+                    <div class="row align-items-start">
+                        <div class="col-8">
+                            <h4 class="fw-semibold mb-3">{{ $activeJobPosts }}</h4>
+                            <div class="d-flex align-items-center mb-2">
+                                <span
+                                    class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-arrow-up-left text-success"></i>
+                                </span>
+                                <p class="text-dark me-2 fs-3 mb-0">+{{ $newJobPosts }}</p>
+                                <p class="fs-3 mb-0">last {{ $days }} days</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-flex justify-content-end">
+                                <div
+                                    class="text-white bg-warning rounded-circle p-7 d-flex align-items-center justify-content-center">
+                                    <i class="ti ti-user fs-6"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         $(document).ready(function() {

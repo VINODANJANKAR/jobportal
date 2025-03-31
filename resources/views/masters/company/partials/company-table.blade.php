@@ -21,8 +21,7 @@
             </td>
             <td>
                 {{-- <div class="d-flex justify-content-evenly align-items-center"> --}}
-                <button class="btn btn-warning btn-sm addLocationBtn" data-id="{{ $company->id }}">Add
-                    Location</button>
+                <button class="btn btn-warning btn-sm addLocationBtn" data-id="{{ $company->id }}">Add Location</button>
                 <button class="btn btn-info btn-sm editCompany" data-id="{{ $company->id }}">Edit</button>
                 <button class="btn btn-danger btn-sm deleteCompany" data-id="{{ $company->id }}">Delete</button>
                 <div>

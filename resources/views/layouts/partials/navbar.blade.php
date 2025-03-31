@@ -45,6 +45,9 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                         <div class="message-body">
+                            <a type="submit" class="btn btn-outline-primary mx-3 mt-2 d-block shadow-none" data-bs-toggle="modal" data-bs-target="#resetPasswordModal" style="width: -webkit-fill-available">Reset Password</a>
+                        </div>
+                        <div class="message-body">
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-outline-primary mx-3 mt-2 d-block shadow-none"
@@ -60,25 +63,75 @@
         
     </nav>
 </header>
+<div class="modal fade" id="resetPasswordModal" tabindex="-1" aria-labelledby="resetPasswordModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="resetPasswordModalLabel">Reset Password</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="resetPasswordForm">
+            @csrf
+            <div class="mb-3">
+              <label for="currentPassword" class="form-label">Current Password</label>
+              <input type="password" class="form-control" id="currentPassword" name="currentPassword" required>
+            </div>
+            <div class="mb-3">
+              <label for="newPassword" class="form-label">New Password</label>
+              <input type="password" class="form-control" id="c" name="newPassword" required>
+            </div>
+            <div class="mb-3">
+              <label for="newPassword_confirmation" class="form-label">Confirm Password</label>
+              <input type="password" class="form-control" id="newPassword_confirmation" name="newPassword_confirmation" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 
 
 <script>
-document.getElementById('headerCollapse').addEventListener('click', function() {
-    var mainWrapper = document.getElementById('main-wrapper');
-    
-    // Only toggle the sidebar visibility on screens smaller than 1200px
-    if (window.innerWidth < 1200) {
-        // Toggle the show-sidebar class to make the sidebar appear/disappear
-        mainWrapper.classList.toggle('show-sidebar');
-    }
-});
+    document.getElementById('headerCollapse').addEventListener('click', function() {
+        var mainWrapper = document.getElementById('main-wrapper');
+        
+        // Only toggle the sidebar visibility on screens smaller than 1200px
+        if (window.innerWidth < 1200) {
+            // Toggle the show-sidebar class to make the sidebar appear/disappear
+            mainWrapper.classList.toggle('show-sidebar');
+        }
+    });
 
-// Optionally, ensure that the sidebar stays visible on small screens
-window.addEventListener('resize', function() {
-    var mainWrapper = document.getElementById('main-wrapper');
-    if (window.innerWidth >= 1200) {
-        mainWrapper.classList.remove('show-sidebar'); // Sidebar should be always visible on large screens
-    }
-});
+    // Optionally, ensure that the sidebar stays visible on small screens
+    window.addEventListener('resize', function() {
+        var mainWrapper = document.getElementById('main-wrapper');
+        if (window.innerWidth >= 1200) {
+            mainWrapper.classList.remove('show-sidebar'); // Sidebar should be always visible on large screens
+        }
+    });
+
+    $('#resetPasswordForm').on('submit', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: '/reset-password',
+            type: 'POST',
+            data: $(this).serialize(),
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                alert(response.success);
+                $('#resetPasswordModal').modal('hide');
+            },
+            error: function(error) {
+                alert(error.responseJSON.error);
+            }
+        });
+    });
+
 
 </script>

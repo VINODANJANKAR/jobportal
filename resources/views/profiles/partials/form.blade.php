@@ -14,6 +14,8 @@
                     $field['options'] = $qualifications;
                 } elseif ($field['name'] == 'experience_id') {
                     $field['options'] = $experiences;
+                } elseif ($field['name'] == 'id') {
+                    $field['options'] = $states;
                 }
             @endphp
             <div class="{{ $colSize }}">
@@ -31,6 +33,7 @@
                             <textarea id="{{ $field['name'] }}" name="{{ $field['name'] }}" class="form-control rounded-0 text-dark border-light form-control-sm"
                                 @if ($show) readonly @endif>{{ old($field['name'], $profile->{$field['name']} ?? '') }}</textarea>
                         @elseif ($field['type'] == 'select')
+                        {{-- @php print_r($field); @endphp --}}
                             <select id="{{ $field['name'] }}" name="{{ $field['name'] }}"
                                 class="form-control form-select rounded-0 text-dark border-light form-control-sm" @if ($show) disabled @endif >
                                 @foreach ($field['options'] as $value => $option)
