@@ -48,6 +48,6 @@ class Profiles extends Model
     
     public function states()
     {
-        return $this->belongsTo(State::class, 'state_id');
+        return $this->belongsTo(State::class, 'id');
     }
 }

@@ -23,13 +23,21 @@ Route::get('companies/{company}/locations', [CompanyController::class, 'getLocat
 Route::get('locations/{location}/address', [CompanyLocationController::class, 'getAddress']);
 Route::post('/send-otp', [AuthController::class, 'sendOtp']);
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [UserProfileController::class, 'userRegister']);
+
+
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/protected-route', function (Request $request) {
         return response()->json(['message' => 'Welcome, authenticated user!']);
     });
-
+    
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/change-password', [AuthController::class, 'changePassword'])->name('changePassword');
     Route::post('/saveProfile', [ProfileApiController::class, 'store']);
     Route::post('/showProfile', [ProfileApiController::class, 'show']);
     Route::post('/jobs', [UserProfileController::class, 'getJobListing']);

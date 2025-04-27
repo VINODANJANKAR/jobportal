@@ -14,7 +14,7 @@
                     $field['options'] = $qualifications;
                 } elseif ($field['name'] == 'experience_id') {
                     $field['options'] = $experiences;
-                } elseif ($field['name'] == 'id') {
+                } elseif ($field['name'] == 'state') {
                     $field['options'] = $states;
                 }
             @endphp

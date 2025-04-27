@@ -136,9 +136,8 @@
                         class="form-control form-select rounded-0 text-dark border-light @error('company_id') is-invalid @enderror"
                         @if ($show) disabled @endif>
                         @foreach ($companies as $company)
-                        @php dd($company['id']); @endphp
-                        <option value="{{ $company->id }}"
-                                {{ old('company_id', $jobPost->company_id ?? '') == $company->id ? 'selected' : ''}}>{{ $company->name }}</option>
+                        
+                        <option value="{{ $company->id }}" {{ old('company_id', $jobPost->company_id ?? '') == $company->id ? 'selected' : ''}}>{{ $company->name }}</option>
                         @endforeach
                     </select>
                     @error('company_id')

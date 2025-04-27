@@ -22,6 +22,7 @@
             <td>{{ $profile->city }}</td>
             <td>{{ $profile->qualifications->qualification }}</td>
             <td>{{ $profile->passing_year }}</td>
+            <td>{{ $profile->experiences->experience }}</td>
             <td>{{ $profile->skills->skill }}</td>
             <td>
                 @if (!empty($profile->cv) && $profile->cv != 'NA')

@@ -50,7 +50,7 @@
 
         @component('components.user-table', [
             'checkbox' => count($profiles) > 0? true : false,
-            'headers' => ['First Name','Gender', 'Mobile No','City', 'Education', 'Year of Passing', 'Experience', 'CV','Action'], // Add other headers as needed
+            'headers' => ['First Name','Gender', 'Mobile No','City', 'Education', 'Year of Passing', 'Experience','skill', 'CV','Action'], // Add other headers as needed
         ])
             <tbody id="profileTable">
                 @include('profiles._table', ['profiles' => $profiles])
