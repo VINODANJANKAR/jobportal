@@ -11,7 +11,7 @@
                             <div class="card-body p-4">
                                 <!-- Logo -->
                                 <a href="{{ url('/') }}" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                                    <img src="{{ asset('images/logos/TJobs_dark.png') }}" width="180" alt="Logo">
+                                    <img src="{{ asset('images/logos/tjobs.jpeg') }}" width="180" alt="Logo">
                                 </a>
 
                                 <!-- Display Errors -->
