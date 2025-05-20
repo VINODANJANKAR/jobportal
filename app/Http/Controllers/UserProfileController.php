@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
 
 class UserProfileController extends Controller
@@ -102,12 +103,12 @@ class UserProfileController extends Controller
         try {
             if ($request->has('limit')) {
                 $limit = $request->input('limit');
-                $jobs = Jobs::select('id', 'post_id', 'post_date', 'position', 'company_name')
+                $jobs = Jobs::with('companies')
                             ->limit($limit)
                             ->get();
             } else {
                 $perPage = $request->get('per_page', 10); // Default to 10 items per page
-                $jobs = Jobs::select('id', 'post_id', 'post_date', 'position', 'company_name')
+                $jobs = Jobs::with('companies')
                             ->paginate($perPage)
                             ->items(); // Use items() to get only the data
             }
@@ -135,10 +136,19 @@ class UserProfileController extends Controller
         try {
             //code...
 
-            $job = Jobs::select('id', 'post_id', 'post_date', 'position', 'company_name', 'job_description', 'location', 'status')
-                      ->findOrFail($request->id);
+            $job = Jobs::with('companies')
+                      ->find($request->id);
 
             // Return job details
+            if(empty($job))
+            {
+                return response()->json([
+                    'status' => true,
+                    'data' => $job,
+                    'message' => 'No Data Found',
+                    'code' => 200,
+                ], 200);
+            }
             return response()->json([
                 'status' => true,
                 'data' => $job,

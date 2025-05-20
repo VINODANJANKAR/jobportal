@@ -42,5 +42,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/showProfile', [ProfileApiController::class, 'show']);
     Route::post('/jobs', [UserProfileController::class, 'getJobListing']);
     Route::post('/jobdetails', [UserProfileController::class, 'getJobDetails']);
+    Route::post('/getJobListing', [UserProfileController::class, 'getJobListing']);
     Route::post('/forgotPassword', [UserProfileController::class, 'forgotPassword']);
 });
+Route::post('/send-otp', [AuthController::class, 'sendOtp']);
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);

@@ -28,11 +28,11 @@ class Handler extends ExceptionHandler
         });
     }
 
-    protected function unauthenticated($request, \Illuminate\Auth\AuthenticationException $exception)
-    {
-        return response()->json([
-            'error' => 'You need to log in to access this resource.',
-            'code' => 401
-        ], 401);
-    }
+    // protected function unauthenticated($request, \Illuminate\Auth\AuthenticationException $exception)
+    // {
+    //     return response()->json([
+    //         'error' => 'You need to log in to access this resource.',
+    //         'code' => 401
+    //     ], 401);
+    // }
 }
