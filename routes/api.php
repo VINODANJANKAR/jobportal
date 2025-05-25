@@ -37,13 +37,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
     
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/change-password', [AuthController::class, 'changePassword'])->name('changePassword');
-    Route::post('/saveProfile', [ProfileApiController::class, 'store']);
-    Route::post('/showProfile', [ProfileApiController::class, 'show']);
-    Route::post('/jobs', [UserProfileController::class, 'getJobListing']);
-    Route::post('/jobdetails', [UserProfileController::class, 'getJobDetails']);
-    Route::post('/getJobListing', [UserProfileController::class, 'getJobListing']);
-    Route::post('/forgotPassword', [UserProfileController::class, 'forgotPassword']);
 });
+
+Route::post('/change-password', [AuthController::class, 'changePassword'])->name('changePassword');
+Route::post('/saveProfile', [ProfileApiController::class, 'store']);
+Route::post('/showProfile', [ProfileApiController::class, 'show']);
+Route::post('/jobs', [UserProfileController::class, 'getJobListing']);
+Route::post('/jobdetails', [UserProfileController::class, 'getJobDetails']);
+Route::post('/forgotPassword', [UserProfileController::class, 'forgotPassword']);
+Route::post('/getJobListing', [UserProfileController::class, 'getJobListing']);
+Route::get('/skills', [UserProfileController::class, 'getSkills']);
+Route::get('/skillsById', [UserProfileController::class, 'getSkillById']);
 Route::post('/send-otp', [AuthController::class, 'sendOtp']);
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);

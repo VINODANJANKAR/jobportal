@@ -206,4 +206,53 @@ class UserProfileController extends Controller
             return response()->json(['error' => 'An error occurred, please try again later.'], 500);
         }
     }
+
+    public function getSkills(Request $request){
+        #get Data from Job Table
+        try {
+            $skills = Skills::get()->toArray();
+            // dd($skills);
+            return response()->json($skills, 200);
+            
+        } catch (\Exception $e) {
+            Log::error('An error occurred', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+        
+            // Return a meaningful response
+            return response()->json([
+                'success' => false,
+                'error' => 'Something went wrong!',
+                'details' => $e->getMessage(),
+                'line' => $e->getLine(),
+            ], 500);
+        }
+        
+    }
+    
+    public function getSkillById(Request $request){
+        #get Data from Job Table
+        try {
+            $skills = Skills::where('id', $request->id)->get()->toArray();
+            return response()->json($skills[0], 200);
+            
+        } catch (\Exception $e) {
+            Log::error('An error occurred', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+        
+            // Return a meaningful response
+            return response()->json([
+                'success' => false,
+                'error' => 'Something went wrong!',
+                'details' => $e->getMessage(),
+                'line' => $e->getLine(),
+            ], 500);
+        }
+        
+    }
 }

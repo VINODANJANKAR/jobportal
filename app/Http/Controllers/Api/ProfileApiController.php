@@ -62,7 +62,7 @@ class ProfileApiController extends Controller
                 'current_salary'    => 'nullable|numeric|min:0',
                 'photo'             => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'cv'                => 'nullable|file|mimes:pdf,doc,docx|max:5120',
-                'password'          => 'required|string|min:8',
+                'password'          => 'nullable|string|min:8',
                 'current_location'  => 'nullable|string|max:255',
                 'passing_year'  => 'nullable|string|max:255',
 
